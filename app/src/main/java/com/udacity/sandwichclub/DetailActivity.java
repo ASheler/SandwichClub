@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -18,12 +19,22 @@ public class DetailActivity extends AppCompatActivity {
     public static final String EXTRA_POSITION = "extra_position";
     private static final int DEFAULT_POSITION = -1;
 
+    TextView originTv;
+    TextView alsoKnownTv;
+    TextView descriptionTv;
+    TextView ingredientsTv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
         ImageView ingredientsIv = findViewById(R.id.image_iv);
+
+        originTv = findViewById(R.id.origin_tv);
+        alsoKnownTv = findViewById(R.id.also_known_tv);
+        descriptionTv = findViewById(R.id.description_tv);
+        ingredientsTv = findViewById(R.id.ingredients_tv);
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -53,7 +64,7 @@ public class DetailActivity extends AppCompatActivity {
             return;
         }
 
-        populateUI();
+        populateUI(sandwich);
         Picasso.with(this)
                 .load(sandwich.getImage())
                 .into(ingredientsIv);
@@ -66,7 +77,25 @@ public class DetailActivity extends AppCompatActivity {
         Toast.makeText(this, R.string.detail_error_message, Toast.LENGTH_SHORT).show();
     }
 
-    private void populateUI() {
+    private void populateUI(Sandwich sandwich) {
+        //Build Also Known As String
+        StringBuilder alsoKnownString = new StringBuilder();
+        if (!sandwich.getAlsoKnownAs().isEmpty()) {
+            for (String temp : sandwich.getAlsoKnownAs()) {
+                alsoKnownString.append(temp).append(", ");
+            }
+        } else alsoKnownString.append("EMPTY BIATCH");
+        //Build Ingredients String
+        StringBuilder ingredientsString = new StringBuilder();
+        for (String temp : sandwich.getIngredients()) {
+            ingredientsString.append(temp).append("\n");
+        }
 
+        String originString = !sandwich.getPlaceOfOrigin().isEmpty() ? sandwich.getPlaceOfOrigin() : "EMPTY";
+
+        originTv.setText(originString);
+        alsoKnownTv.setText(alsoKnownString);
+        descriptionTv.setText(sandwich.getDescription());
+        ingredientsTv.setText(ingredientsString);
     }
 }

@@ -15,8 +15,8 @@ public class JsonUtils {
     public static Sandwich parseSandwichJson(String json) throws JSONException {
 
         //decode json here
-        JSONObject mSandwich = new JSONObject(json);
-        JSONObject name = mSandwich.getJSONObject("name");
+        JSONObject jsonRoot = new JSONObject(json);
+        JSONObject name = jsonRoot.getJSONObject("name");
         String mainName = name.getString("mainName");
         //JSON Array for alsoKnownAs Array
         JSONArray alsoKnownAsJSONArray = name.getJSONArray("alsoKnownAs");
@@ -25,19 +25,18 @@ public class JsonUtils {
             String val = alsoKnownAsJSONArray.getString(i);
             alsoKnownAs.add(val);
         }
-        String placeOfOrigin = mSandwich.getString("placeOfOrigin");
-        String description = mSandwich.getString("description");
-        String image = mSandwich.getString("image");
+        String placeOfOrigin = jsonRoot.getString("placeOfOrigin");
+        String description = jsonRoot.getString("description");
+        String image = jsonRoot.getString("image");
         //JSON Array for Ingredients
-        JSONArray ingredientsJSONArray = mSandwich.getJSONArray("ingredients");
+        JSONArray ingredientsJSONArray = jsonRoot.getJSONArray("ingredients");
         List<String> ingredients = new ArrayList<>();
         for (int i = 0; i < ingredientsJSONArray.length(); i++) {
             String val = ingredientsJSONArray.getString(i);
             ingredients.add(val);
         }
 
-        //build Sandwich
-        //Sandwich sandwich
+        //build and return Sandwich
 
         return new Sandwich(
                 mainName,
