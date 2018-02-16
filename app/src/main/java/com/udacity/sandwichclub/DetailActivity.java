@@ -14,6 +14,7 @@ import com.udacity.sandwichclub.utils.JsonUtils;
 
 import org.json.JSONException;
 
+
 public class DetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_POSITION = "extra_position";
@@ -78,24 +79,51 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void populateUI(Sandwich sandwich) {
+
         //Build Also Known As String
         StringBuilder alsoKnownString = new StringBuilder();
+            //check if not empty
         if (!sandwich.getAlsoKnownAs().isEmpty()) {
-            for (String temp : sandwich.getAlsoKnownAs()) {
-                alsoKnownString.append(temp).append(", ");
+            for (int i = 0; i < sandwich.getAlsoKnownAs().size() ; i++){
+                alsoKnownString.append(sandwich.getAlsoKnownAs().get(i));
+                //check if not last input
+                if (i+1 != sandwich.getAlsoKnownAs().size()){
+                    //Append coma between inputs
+                    alsoKnownString.append(", ");
+                }
             }
-        } else alsoKnownString.append("EMPTY BIATCH");
-        //Build Ingredients String
-        StringBuilder ingredientsString = new StringBuilder();
-        for (String temp : sandwich.getIngredients()) {
-            ingredientsString.append(temp).append("\n");
+        } else {
+            //Empty Also Known As
+            alsoKnownString.append("N/A");
         }
 
-        String originString = !sandwich.getPlaceOfOrigin().isEmpty() ? sandwich.getPlaceOfOrigin() : "EMPTY";
+        //Build Ingredients String
+        StringBuilder ingredientsString = new StringBuilder();
+            //check if not empty
+        if (!sandwich.getIngredients().isEmpty()) {
+            for (int i = 0; i < sandwich.getIngredients().size() ; i++){
+                ingredientsString.append(sandwich.getIngredients().get(i));
+                //check if not last input
+                if (i+1 != sandwich.getIngredients().size()){
+                    //Append coma between inputs
+                    ingredientsString.append(",\n");
+                }
+            }
+        } else {
+            //Empty Also Known As
+            ingredientsString.append("N/A");
+        }
 
+        //Check & populate originString
+        String originString = !sandwich.getPlaceOfOrigin().isEmpty() ? sandwich.getPlaceOfOrigin() : "N/A";
+        //Check & populate description String
+        String descriptionString = !sandwich.getDescription().isEmpty() ? sandwich.getDescription() : "N/A";
+
+
+        //set Text to TV from Strings
         originTv.setText(originString);
         alsoKnownTv.setText(alsoKnownString);
-        descriptionTv.setText(sandwich.getDescription());
+        descriptionTv.setText(descriptionString);
         ingredientsTv.setText(ingredientsString);
     }
 }
