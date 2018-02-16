@@ -53,11 +53,12 @@ public class DetailActivity extends AppCompatActivity {
         String json = sandwiches[position];
 
         Sandwich sandwich = null;
+        //try if JSON really is JSON - if not, catch error & Log it
         try {
             sandwich = JsonUtils.parseSandwichJson(json);
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("JSONException ","exceptions"+e);
+            Log.e("JSONException ","exceptions "+e);
         }
         if (sandwich == null) {
             // Sandwich data unavailable
@@ -118,7 +119,6 @@ public class DetailActivity extends AppCompatActivity {
         String originString = !sandwich.getPlaceOfOrigin().isEmpty() ? sandwich.getPlaceOfOrigin() : "N/A";
         //Check & populate description String
         String descriptionString = !sandwich.getDescription().isEmpty() ? sandwich.getDescription() : "N/A";
-
 
         //set Text to TV from Strings
         originTv.setText(originString);
